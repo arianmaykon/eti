@@ -16,5 +16,6 @@
         <br />
         <h4>Lista de Exercícios 2/5</h4>
         <a href="/DWJ_Lista2/Questao1.jsp">Questão 1</a>
+        <a href="/DWJ_Lista2/Questao2.html">Questão 2</a>
     </body>
 </html>
