@@ -1,14 +1,30 @@
 package br.ufc.eti.eti2010.dwj.lista2;
 
 /**
- * @author Arian Maykon de Araújo Diógenes <arian.maykon@gmail.com>
+ * @author Arian Maykon de Araújo Diógenes
  */
 public class Sentenca {
 
     private String texto;
+    private String operacao;
 
-    public Sentenca(String texto) {
-        this.texto = texto;
+    public Sentenca() {
+    }
+
+    public void setTexto(String txt) {
+        this.texto = txt;
+    }
+
+    public String getTexto() {
+        return this.texto;
+    }
+
+    public String getOperacao() {
+        return operacao;
+    }
+
+    public void setOperacao(String operacao) {
+        this.operacao = operacao;
     }
 
     public String toUpper() {
@@ -20,7 +36,6 @@ public class Sentenca {
     }
 
     public String invert() {
-//TODO:
-        return this.texto;
+        return new StringBuffer(this.texto).reverse().toString();
     }
 }
