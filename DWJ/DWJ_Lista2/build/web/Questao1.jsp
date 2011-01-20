@@ -1,25 +1,8 @@
 <%@page import="br.ufc.eti.eti2010.dwj.lista2.Sentenca"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="mybean" class="br.ufc.eti.eti2010.dwj.lista2.Sentenca" />
 <%
-    String alterada = null;
-    if (request.getMethod().equalsIgnoreCase("POST")) {
-        String texto = request.getParameter("texto");
-        String operacao= request.getParameter("operacao");
-
-        if (!texto.equalsIgnoreCase("") && !operacao.equalsIgnoreCase("")) {
-
-            Sentenca sentenca = new Sentenca();
-            sentenca.setTexto(texto);
-
-            if (operacao.equalsIgnoreCase("toupper")) {
-                alterada = sentenca.toUpper();
-            } else if (operacao.equalsIgnoreCase("tolower")) {
-                alterada = sentenca.toLower();
-            } else if (operacao.equalsIgnoreCase("invert")) {
-                alterada = sentenca.invert();
-            }
-        }
-    }
+    request.setCharacterEncoding("UTF-8");
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -43,11 +26,24 @@
             <br />
             <input type="submit" value="Enviar" />
         </form>
+        <jsp:setProperty name="mybean" property="*" />
         <%
-            if (alterada != null) {
-                out.println("<br />");
-                out.println("<h3>String alterada = </h3>");
-                out.println(alterada);
+            if (request.getMethod().equalsIgnoreCase("POST")) {
+                String operacao = mybean.getOperacao();
+                String alterada = null;
+
+                if (!operacao.equalsIgnoreCase("")) {
+                    if (operacao.equalsIgnoreCase("toupper")) {
+                        alterada = mybean.toUpper();
+                    } else if (operacao.equalsIgnoreCase("tolower")) {
+                        alterada = mybean.toLower();
+                    } else if (operacao.equalsIgnoreCase("invert")) {
+                        alterada = mybean.invert();
+                    }
+                    out.println("<br />");
+                    out.println("<h3>String alterada = </h3>");
+                    out.println(alterada);
+                }
             }
         %>
     </body>
