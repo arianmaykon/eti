@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Arian Maykon de Araújo Diógenes <arian.maykon@gmail.com>
+ * @author Arian Maykon de Araújo Diógenes
  */
 public class Questao2 extends HttpServlet {
    
