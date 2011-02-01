@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Arian Maykon de Araújo Diógenes
+ * @author Arian Maykon de Araújo Diógenes <arian.maykon@gmail.com>
  */
 public class Questao1 extends HttpServlet {
    
@@ -24,7 +24,6 @@ public class Questao1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         try {
 
@@ -48,19 +47,19 @@ public class Questao1 extends HttpServlet {
             out.println("<title>ETI2010 - DWJ - Lista 1: Questão 1</title>");
             out.println("</head>");
             out.println("<body>");
-                out.println("<h1>Lista de Comentários (Questão 1)</h1>");
+                out.println("<h1>Lista de Comentários</h1>");
                 out.println("<br />");
-                Iterator it = comentarios.iterator();
-                while(it.hasNext()) {
-                    comentario = (String) it.next();
-                    out.println("<br />" + comentario + "<br />------");
-                }
-                out.println("<hr />");
                 out.println("<form action='/DWJ_Lista1/Questao1' method='post'>");
                     out.println("<label for='txtComentario'>Comentário:</label><input type='text' name='txtComentario' id='txtComentario' size='40' />");
                     out.println("<br />");
                     out.println("<input type='submit' value='Inserir Comentário' />");
                 out.println("</form>");
+                out.println("<hr />");
+                Iterator it = comentarios.iterator();
+                while(it.hasNext()) {
+                    comentario = (String) it.next();
+                    out.println("<br />" + comentario + "<br />------");
+                }
             out.println("</body>");
             out.println("</html>");
 

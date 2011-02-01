@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Arian Maykon de Araújo Diógenes
+ * @author Arian Maykon de Araújo Diógenes <arian.maykon@gmail.com>
  */
 public class Questao2 extends HttpServlet {
    
@@ -26,7 +26,6 @@ public class Questao2 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
@@ -68,11 +67,10 @@ public class Questao2 extends HttpServlet {
 
             out.println("<html>");
             out.println("<head>");
-            out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
             out.println("<title>ETI2010 - DWJ - Lista 1: Questão 2</title>");
             out.println("</head>");
             out.println("<body>");
-                out.println("<h1>Temas de discussão (Questão 2)</h1>");
+                out.println("<h1>Temas de discussão</h1>");
                 out.println("<br />");
                 out.println("<form action='/DWJ_Lista1/Questao2' method='post'>");
                     out.println("<input type='hidden' name='operation' value='addtema' />");

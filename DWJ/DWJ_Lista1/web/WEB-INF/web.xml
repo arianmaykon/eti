@@ -8,10 +8,6 @@
         <servlet-name>Questao2</servlet-name>
         <servlet-class>br.ufc.eti.eti2010.dwj.lista1.Questao2</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Questao3</servlet-name>
-        <servlet-class>br.ufc.eti.eti2010.dwj.lista1.Questao3</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Questao1</servlet-name>
         <url-pattern>/Questao1</url-pattern>
@@ -19,10 +15,6 @@
     <servlet-mapping>
         <servlet-name>Questao2</servlet-name>
         <url-pattern>/Questao2</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Questao3</servlet-name>
-        <url-pattern>/Questao3</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
