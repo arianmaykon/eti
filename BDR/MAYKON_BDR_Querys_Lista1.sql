@@ -184,6 +184,29 @@ HAVING
 
 --------------------------------------------------------------------------------
 -- 16. Obtenha os projetos que tem mais empregados do que a média dos empregados de todos os projetos e o total de horas alocadas maior do que a média de horas de todos os projetos.
-
+SELECT b.nome, b.num 
+FROM 
+(
+	SELECT a.nome nome, AVG(a.qtd) media, a.num num, a.qtd, a.soma
+	FROM 
+	(
+		SELECT COUNT(tn.emp) qtd, p1.pnum num, p1.pnome nome, SUM(tn.horas) soma
+		FROM projeto p1
+		INNER JOIN trabalha_no tn ON (tn.proj = p1.pnum)
+		GROUP BY p1.pnum, p1.pnome
+	) a
+	GROUP BY a.nome, a.num, a.qtd, a.soma
+) b
+WHERE 
+b.qtd >= b.media
+AND b.soma > (
+	SELECT AVG(c.soma)
+	FROM (
+		SELECT p1.pnum num, SUM(tn.horas) soma
+		FROM projeto p1
+		INNER JOIN trabalha_no tn ON (tn.proj = p1.pnum)
+		GROUP BY p1.pnum
+	) c
+);
 
 --------------------------------------------------------------------------------
