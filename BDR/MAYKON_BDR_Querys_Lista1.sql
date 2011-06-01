@@ -8,7 +8,7 @@ FROM
 	empregado emp
 	INNER JOIN departamento dept ON emp.dept = dept.dnum
 WHERE 
-	emp.salario > 5000;
+	emp.salario > 5000
 
 --------------------------------------------------------------------------------
 -- 2. Liste os nomes dos supervisores dos empregados que ganham mais do que R$5.000.
@@ -18,7 +18,7 @@ FROM
 	empregado supervisores
 	INNER JOIN empregado emp ON supervisores.cpf = emp.superv
 WHERE 
-	supervisores.salario > 5000;
+	supervisores.salario > 5000
 
 --------------------------------------------------------------------------------
 -- 3. Liste o nome e salário de todos os empregados que ganham mais que o seu supervisor.  
@@ -27,7 +27,7 @@ SELECT
 	emp.salario EMPREGADO_SALARIO
 FROM
 	empregado emp
-	INNER JOIN empregado sup ON emp.cpf = sup.superv AND emp.salario > sup.salario;
+	INNER JOIN empregado sup ON emp.cpf = sup.superv AND emp.salario > sup.salario
 
 --------------------------------------------------------------------------------
 -- 4. Obtenha o nome do gerente de cada projeto. 
@@ -37,10 +37,10 @@ SELECT
 FROM
 	empregado ger
 	INNER JOIN departamento dep ON ger.cpf = dep.gerente
-	INNER JOIN projeto proj ON dep.dnum = proj.numdept;
+	INNER JOIN projeto proj ON dep.dnum = proj.numdept
 
 --------------------------------------------------------------------------------
--- 5.  Liste  os  nomes  dos  projetos  que  têm  um  empregado  chamado  "JOAO  SILVA"  que  trabalha  no projeto ou gerencia o departamento que controla o projeto.  
+-- 5.  Liste  os  nomes  dos  projetos  que  têm  um  empregado  chamado  “JOAO  SILVA”  que  trabalha  no projeto ou gerencia o departamento que controla o projeto.  
 SELECT 
 	proj.pnome PROJETO,
 	ger.enome NOME --GERENTE 
@@ -61,7 +61,7 @@ FROM
 	INNER JOIN trabalha_no workon ON proj.pnum = workon.proj
 	INNER JOIN empregado emp ON workon.emp = emp.cpf
 WHERE 
-	emp.enome = 'JOAO SILVA';
+	emp.enome = 'JOAO SILVA'
 
 --------------------------------------------------------------------------------
 -- 6. CPF dos empregados que não trabalham em nenhum projeto
@@ -70,7 +70,7 @@ SELECT
 FROM
 	empregado emp
 WHERE 
-	emp.cpf NOT IN (SELECT workon.emp FROM trabalha_no workon);
+	emp.cpf NOT IN (SELECT workon.emp FROM trabalha_no workon)
 
 --------------------------------------------------------------------------------
 -- 7. CPF dos empregados que trabalham em pelo menos um projeto.
@@ -79,24 +79,12 @@ SELECT
 FROM
 	empregado emp
 WHERE 
-	emp.cpf IN (SELECT workon.emp FROM trabalha_no workon);
+	emp.cpf IN (SELECT workon.emp FROM trabalha_no workon)
 
 --------------------------------------------------------------------------------
 -- 8. CPF dos empregados que trabalham em todos os projetos.
-SELECT 
-	emp.cpf
-FROM 
-	empregado emp
-WHERE
-	NOT EXISTS (
-		SELECT proj.pnum
-		FROM projeto proj
-		WHERE proj.pnum NOT IN (
-			SELECT workon.proj 
-			FROM trabalha_no workon
-			WHERE workon.emp = emp.cpf
-		)
-	);
+
+--						PENDENTE
 
 --------------------------------------------------------------------------------
 -- 9. Liste os nome e salário de  todos os empregados e no caso de ser um gerente,  liste o departamento que gerencia.
@@ -106,7 +94,7 @@ SELECT
 	dep.dnome DEPARTAMENTO
 FROM
 	empregado emp
-	LEFT JOIN departamento dep ON emp.cpf = dep.gerente;
+	LEFT JOIN departamento dep ON emp.cpf = dep.gerente
 
 --------------------------------------------------------------------------------
 -- 10. Liste o nome dos empregados no departamento 'TRANSPORTE' que tem o maior salário.
@@ -114,10 +102,10 @@ SELECT
 	emp.enome NOME 
 FROM
 	empregado emp
-	LEFT JOIN departamento dep ON emp.dept = dep.dnum 
+	LEFT JOIN departamento dep ON emp.cpf = dep.gerente 
 WHERE 
-	dep.dnome = 'TRANSPORTE' AND 
-	emp.salario >= (SELECT AVG(emp2.salario) FROM empregado emp2 WHERE emp2.dept = dep.dnum);
+	dep.dnome = 'TRANSPORTE'
+-- ?? Como pegar os maiores salários ?? Max?
 
 --------------------------------------------------------------------------------
 -- 11. Qual é a média de salário dos empregados no departamento 'VENDAS'?
@@ -127,7 +115,7 @@ FROM
 	empregado emp
 	LEFT JOIN departamento dep ON emp.cpf = dep.gerente 
 WHERE 
-	dep.dnome = 'VENDAS';
+	dep.dnome = 'VENDAS'
 
 --------------------------------------------------------------------------------
 -- 12. Para cada empregado obtenha o número de projetos que ele trabalha e o total de horas que trabalha nestes projetos.
@@ -140,7 +128,7 @@ FROM
 	INNER JOIN trabalha_no workon ON emp.cpf = workon.emp 
 	INNER JOIN projeto proj ON workon.proj = proj.pnum
 GROUP BY 
-	emp.enome;
+	emp.enome
 
 --------------------------------------------------------------------------------
 -- 13. Quantos empregados trabalham em mais de um projeto?
@@ -154,7 +142,7 @@ FROM
 GROUP BY 
 	emp.enome
 HAVING 
-	COUNT(proj.pnum) > 1;
+	COUNT(proj.pnum) > 1
 
 --------------------------------------------------------------------------------
 -- 14.  Para  cada  projeto  obtenha  o  número  de  empregados  que  trabalha  no  projeto  e  o  total  de  horas alocada para o projeto.
@@ -166,7 +154,7 @@ FROM
 	projeto proj 
 	INNER JOIN trabalha_no workon ON proj.pnum = workon.proj 
 GROUP BY 
-	proj.pnome;
+	proj.pnome
 
 --------------------------------------------------------------------------------
 -- 15.  Para cada projeto que tem mais de 3 empregados alocados, obtenha a média de horas que os empregados trabalham no projeto.
@@ -180,33 +168,10 @@ FROM
 GROUP BY 
 	proj.pnome
 HAVING 
-	COUNT(workon.proj) >= 3;
+	COUNT(workon.proj) >= 3
 
 --------------------------------------------------------------------------------
 -- 16. Obtenha os projetos que tem mais empregados do que a média dos empregados de todos os projetos e o total de horas alocadas maior do que a média de horas de todos os projetos.
-SELECT b.nome, b.num 
-FROM 
-(
-	SELECT a.nome nome, AVG(a.qtd) media, a.num num, a.qtd, a.soma
-	FROM 
-	(
-		SELECT COUNT(tn.emp) qtd, p1.pnum num, p1.pnome nome, SUM(tn.horas) soma
-		FROM projeto p1
-		INNER JOIN trabalha_no tn ON (tn.proj = p1.pnum)
-		GROUP BY p1.pnum, p1.pnome
-	) a
-	GROUP BY a.nome, a.num, a.qtd, a.soma
-) b
-WHERE 
-b.qtd >= b.media
-AND b.soma > (
-	SELECT AVG(c.soma)
-	FROM (
-		SELECT p1.pnum num, SUM(tn.horas) soma
-		FROM projeto p1
-		INNER JOIN trabalha_no tn ON (tn.proj = p1.pnum)
-		GROUP BY p1.pnum
-	) c
-);
+
 
 --------------------------------------------------------------------------------
